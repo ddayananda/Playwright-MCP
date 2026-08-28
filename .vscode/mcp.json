@@ -1,0 +1,9 @@
+{
+  "servers": {
+    "microsoft/playwright-mcp": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"],
+      "type": "stdio"
+    }
+  }
+}
