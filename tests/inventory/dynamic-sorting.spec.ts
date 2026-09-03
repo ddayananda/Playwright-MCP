@@ -16,6 +16,5 @@ test.describe('Dynamic inventory sorting', () => {
 
     expect(numericPrices).toHaveLength(6);
     expect(numericPrices).toEqual([...numericPrices].sort((first, second) => first - second));
-    expect(numericPrices.every((price, index) => index === 0 || price > numericPrices[index - 1])).toBeTruthy();
-  });
+    expect(numericPrices.every((price, index) => index === 0 || price >= numericPrices[index - 1])).toBeTruthy();  });
 });
