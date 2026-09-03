@@ -1,5 +1,5 @@
 ---
-description: 'Explores the app and produces a numbered Markdown test plan. Read-only browser. Writes only to specs/.'
+description: 'Explores SauceDemo and produces numbered Markdown test plans for dynamic sorting, cart, and checkout workflows. Read-only browser. Writes only to specs/.'
 tools:
   - codebase
   - editFiles
@@ -45,7 +45,7 @@ If any rule here conflicts with `AGENTS.md`, `AGENTS.md` wins.
 - Do NOT fill forms with real-looking data
 - Do NOT write test code — that is the Generator's job
 - Do NOT modify any file outside `specs/*.md`
-- Do NOT explore production URLs — staging or local only
+- For this assignment, the assigned SauceDemo URL is the permitted target: https://www.saucedemo.com
 
 ## How to explore
 
