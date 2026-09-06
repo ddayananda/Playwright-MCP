@@ -33,15 +33,15 @@ Before writing any code:
 1. Read `AGENTS.md` at the project root
 2. Read `tests/seed.spec.ts` — the reference baseline
 3. Read the plan file the user asked you to work from
-4. Read any existing page objects under `src/pages/`
+4. Read any existing page objects under `pages/`
 
 If any rule here conflicts with `AGENTS.md`, `AGENTS.md` wins.
 
 ## Framework rules — NON-NEGOTIABLE
 
 ### Imports
-- Import `test` and `expect` from `src/fixtures/base.ts` — NEVER from `@playwright/test` directly
-- Import page objects from `src/pages/`
+- Import `test` and `expect` from `@playwright/test`
+- Import page objects from `pages/`
 - Import test data from `tests/data/`
 - No inline test data — always load from `tests/data/*.json`
 
@@ -56,7 +56,7 @@ If any rule here conflicts with `AGENTS.md`, `AGENTS.md` wins.
 - Use `test.step()` when a flow has more than 3 actions
 
 ### Page Object contract
-- Every page has a class in `src/pages/`, extending `BasePage`
+- Every page has a class in `pages/`, extending `BasePage`
 - Constructor takes `page: Page` only
 - All locators are `readonly` properties, initialized in the constructor
 - Action methods return `Promise<void>` OR the next page object
@@ -87,9 +87,9 @@ If no locator in the priority list resolves uniquely, STOP and ask the user rath
 
 ## Reference example — match this style
 
-    import { test, expect } from '../../src/fixtures/base';
-    import { LoginPage } from '../../src/pages/LoginPage';
-    import { InventoryPage } from '../../src/pages/InventoryPage';
+    import { test, expect } from '@playwright/test';
+    import { LoginPage } from '../../pages/LoginPage';
+    import { InventoryPage } from '../../pages/InventoryPage';
     import users from '../data/users.json';
 
     test.describe('Standard user login', () => {
@@ -125,7 +125,7 @@ Match this style:
 - Adding a new fixture
 - Installing a new npm dependency
 - Modifying `playwright.config.ts`
-- Modifying `src/fixtures/base.ts`
+- Modifying `pages/BasePage.ts`
 
 ## Forbidden
 
@@ -138,7 +138,7 @@ Match this style:
 ## Quality checklist before reporting done
 
 - Test file lives at the correct path
-- Imports come from `src/fixtures/base.ts`
+- Imports come from `@playwright/test`
 - Every element interaction goes through a page object
 - Locator priority order followed
 - At least one meaningful assertion

@@ -13,16 +13,15 @@ Follow these rules for every code change.
 
 ## Folder structure
 
-- `src/pages/` — Page Object classes (one file per page)
-- `src/fixtures/` — Custom fixtures extending base test
-- `src/utils/` — Pure helpers, no test logic
+- `pages/` — Page Object classes (one file per page)
+- `utils/` — Pure helpers, no test logic
 - `tests/` — Spec files, mirror app URL structure
 - `tests/data/` — JSON/CSV test data
 - `specs/` — Planner output (Markdown plans)
 
 ## Coding conventions
 
-- Import test from `src/fixtures/base.ts`, never from `@playwright/test` directly
+- Import `test` and `expect` from `@playwright/test`
 - Use `test.describe` per feature area
 - One logical assertion group per test
 - Use `test.step` for readability when a flow has more than 3 actions
@@ -72,4 +71,4 @@ Follow these rules for every code change.
 
 - Ask a clarifying question before generating code
 - Prefer a smaller, focused change over a big refactor
-- If a required file does not exist, ask before creating it
+- If a required file does not exist, ask before creating itore creating it

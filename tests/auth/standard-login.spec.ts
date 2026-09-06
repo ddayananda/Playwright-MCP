@@ -1,6 +1,6 @@
-import { test, expect } from '../../src/fixtures/base';
-import { LoginPage } from '../../src/pages/LoginPage';
-import { InventoryPage } from '../../src/pages/InventoryPage';
+import { test, expect } from '@playwright/test';
+import { LoginPage } from '../../pages/LoginPage';
+import { InventoryPage } from '../../pages/InventoryPage';
 import users from '../data/users.json';
 
 test.describe('Standard user login', () => {

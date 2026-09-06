@@ -1,6 +1,6 @@
 # SauceDemo Playwright MCP Assignment
 
-This project automates dynamic inventory sorting and a multi-item SauceDemo checkout flow using Playwright and TypeScript. Page objects live in `src/pages`, reusable parsing logic lives in `src/utils`, and executable tests remain under `tests` to match the repository's existing runner configuration.
+This project automates SauceDemo login, dynamic inventory sorting, and a multi-item checkout flow using Playwright and TypeScript. Page objects live in `pages`, reusable parsing logic lives in `utils`, and executable tests remain under `tests`.
 
 ## Prerequisites
 
@@ -18,7 +18,7 @@ npm test
 npm run report
 ```
 
-The checkout scenarios pass. The strict sorting assertion intentionally records `DEF-001`: SauceDemo has two `$15.99` products, so the assignment's strict `>` requirement cannot be met by the live data. A non-decreasing sort is correctly implemented by the application. Evidence is saved under `screenshots/` and the defect is recorded in `reports/defects.xlsx`.
+The checkout scenarios pass. The strict sorting assertion intentionally records `DEF-001`: SauceDemo has two `$15.99` products, so the assignment's strict `>` requirement cannot be met by the live data. A non-decreasing sort is correctly implemented by the application. Evidence is saved under `screenshots/`, the HTML report is written to `reports/playwright-report/`, and the defect is recorded in `reports/defects.xlsx`.
 
 ## MCP and healing notes
 
@@ -27,6 +27,9 @@ The planner workflow is defined in `.github/agents/playwright-test-planner.agent
 ## Deliverables
 
 - `specs/checkout-test-cases.md`: manual cases and execution notes
+- `pages/LoginPage.ts`, `pages/InventoryPage.ts`, `pages/CheckoutPage.ts`: page objects
+- `utils/money.ts`: currency parsing and rounding helpers
+- `tests/auth/standard-login.spec.ts`: standard login smoke coverage
 - `tests/inventory/dynamic-sorting.spec.ts`: sorting and price assertions
 - `tests/checkout/checkout-e2e.spec.ts`: checkout math, negative validation, and confirmation
 - `reports/defects.xlsx`: defect schema and `DEF-001`

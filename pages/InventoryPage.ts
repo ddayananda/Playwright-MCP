@@ -6,7 +6,8 @@ export class InventoryPage extends BasePage {
   readonly addToCartButtons: ReturnType<Page['getByRole']>;
   readonly sortDropdown: ReturnType<Page['getByRole']>;
   readonly productPrices: ReturnType<Page['getByText']>;
-  readonly cartLink: ReturnType<Page['getByRole']>;
+  readonly cartLink: ReturnType<Page['getByText']>;
+  readonly cartItemCount: ReturnType<Page['getByText']>;
 
   constructor(page: Page) {
     super(page);
@@ -14,6 +15,7 @@ export class InventoryPage extends BasePage {
     this.sortDropdown = page.getByRole('combobox');
     this.productPrices = page.getByText(/^\$\d+\.\d{2}$/);
     this.cartLink = page.getByText(/^\d+$/).last();
+    this.cartItemCount = page.getByText(/^\d+$/).last();
   }
 
   async goto(): Promise<void> {

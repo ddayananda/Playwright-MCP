@@ -1,6 +1,6 @@
-import { test, expect } from '../../src/fixtures/base';
-import { LoginPage } from '../../src/pages/LoginPage';
-import { parseCurrency } from '../../src/utils/money';
+import { test, expect } from '@playwright/test';
+import { LoginPage } from '../../pages/LoginPage';
+import { parseCurrency } from '../../utils/money';
 import users from '../data/users.json';
 
 test.describe('Dynamic inventory sorting', () => {
@@ -16,5 +16,8 @@ test.describe('Dynamic inventory sorting', () => {
 
     expect(numericPrices).toHaveLength(6);
     expect(numericPrices).toEqual([...numericPrices].sort((first, second) => first - second));
-    expect(numericPrices.every((price, index) => index === 0 || price >= numericPrices[index - 1])).toBeTruthy();  });
+    for (let index = 1; index < numericPrices.length; index += 1) {
+      expect(numericPrices[index]).toBeGreaterThan(numericPrices[index - 1]);
+    }
+  });
 });

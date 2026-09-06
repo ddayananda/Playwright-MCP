@@ -60,7 +60,7 @@ A "passing" test that no longer catches the bug it was designed to catch is wors
 - Increase a timeout beyond `playwright.config.ts` defaults
 - Use `page.waitForTimeout` under any circumstance
 - Modify a page object without explicit human approval
-- Modify `src/fixtures/base.ts`
+- Modify `pages/BasePage.ts` or the affected page object under `pages/`
 - Modify `playwright.config.ts`
 - Modify test data files to make a test pass
 - Delete a test

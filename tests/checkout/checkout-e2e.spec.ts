@@ -1,6 +1,7 @@
-import { test, expect } from '../../src/fixtures/base';
-import { LoginPage } from '../../src/pages/LoginPage';
-import { parseCurrency, roundCurrency } from '../../src/utils/money';
+import { test, expect } from '@playwright/test';
+import { LoginPage } from '../../pages/LoginPage';
+import { parseCurrency, roundCurrency } from '../../utils/money';
+import checkoutData from '../data/checkout.json';
 import users from '../data/users.json';
 
 test.describe('Multi-item checkout flow', () => {
@@ -9,17 +10,24 @@ test.describe('Multi-item checkout flow', () => {
     await loginPage.goto();
     const inventoryPage = await loginPage.loginAs(users.standard);
     await inventoryPage.addProducts(2);
+    await expect(inventoryPage.cartItemCount).toHaveText('2');
     const checkoutPage = await inventoryPage.openCart();
+    const selectedPrices = (await checkoutPage.cartItemPrices.allTextContents()).map(parseCurrency);
+    const expectedSubtotal = roundCurrency(selectedPrices.reduce((sum, price) => sum + price, 0));
 
     await checkoutPage.startCheckout();
-    await checkoutPage.fillCustomerDetails('Ada', 'Lovelace', '12345');
+    await checkoutPage.fillCustomerDetails(
+      checkoutData.customer.firstName,
+      checkoutData.customer.lastName,
+      checkoutData.customer.postalCode,
+    );
     await checkoutPage.continueToSummary();
 
     const itemTotal = parseCurrency(await checkoutPage.itemTotal.textContent() ?? '');
     const tax = parseCurrency(await checkoutPage.tax.textContent() ?? '');
     const total = parseCurrency(await checkoutPage.total.textContent() ?? '');
 
-    expect(itemTotal).toBeGreaterThan(0);
+    expect(itemTotal).toBe(expectedSubtotal);
     expect(tax).toBe(roundCurrency(itemTotal * 0.08));
     expect(total).toBe(roundCurrency(itemTotal + tax));
 
@@ -41,6 +49,38 @@ test.describe('Multi-item checkout flow', () => {
     await checkoutPage.continueButton.click();
 
     await expect(checkoutPage.errorMessage).toContainText('First Name is required');
+    await expect(page).toHaveURL(/\/checkout-step-one\.html$/);
+  });
+
+  test('rejects checkout when last name is missing @regression', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.goto();
+    const inventoryPage = await loginPage.loginAs(users.standard);
+    await inventoryPage.addProducts(1);
+    const checkoutPage = await inventoryPage.openCart();
+
+    await checkoutPage.startCheckout();
+    await checkoutPage.firstNameInput.fill(checkoutData.customer.firstName);
+    await checkoutPage.postalCodeInput.fill(checkoutData.customer.postalCode);
+    await checkoutPage.continueButton.click();
+
+    await expect(checkoutPage.errorMessage).toContainText('Last Name is required');
+    await expect(page).toHaveURL(/\/checkout-step-one\.html$/);
+  });
+
+  test('rejects checkout when postal code is missing @regression', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.goto();
+    const inventoryPage = await loginPage.loginAs(users.standard);
+    await inventoryPage.addProducts(1);
+    const checkoutPage = await inventoryPage.openCart();
+
+    await checkoutPage.startCheckout();
+    await checkoutPage.firstNameInput.fill(checkoutData.customer.firstName);
+    await checkoutPage.lastNameInput.fill(checkoutData.customer.lastName);
+    await checkoutPage.continueButton.click();
+
+    await expect(checkoutPage.errorMessage).toContainText('Postal Code is required');
     await expect(page).toHaveURL(/\/checkout-step-one\.html$/);
   });
 });
