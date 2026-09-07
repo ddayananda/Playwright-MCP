@@ -94,3 +94,9 @@ The SauceDemo login page is the entry point for the standard user flow and the c
 - Logout after successful login is not included because the scope is limited to the login flow requested.
 - Product browsing and checkout flows are intentionally excluded because they are not part of the authentication validation scenarios.
 - Multi-user session switching is outside the current scope and would require separate session-state coverage.
+
+## Execution Notes
+
+- Scenarios 1.1–1.5 are all automated in `tests/auth/standard-login.spec.ts`.
+- Scenario 1.2 uses the `lockedOutUser` credential from `utils/credentials.ts` (`SAUCE_LOCKED_OUT_USERNAME` env var).
+- Scenarios 1.3–1.5 exercise the new `LoginPage.attemptLogin()` method, which submits the form without assuming success, and assert on the new `LoginPage.errorMessage` locator.

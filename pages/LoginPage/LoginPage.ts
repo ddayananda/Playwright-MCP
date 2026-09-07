@@ -6,12 +6,14 @@ export class LoginPage extends BasePage {
   readonly usernameInput: ReturnType<Page['getByRole']>;
   readonly passwordInput: ReturnType<Page['getByRole']>;
   readonly loginButton: ReturnType<Page['getByRole']>;
+  readonly errorMessage: ReturnType<Page['getByRole']>;
 
   constructor(page: Page) {
     super(page);
     this.usernameInput = page.getByRole('textbox', { name: 'Username' });
     this.passwordInput = page.getByRole('textbox', { name: 'Password' });
     this.loginButton = page.getByRole('button', { name: 'Login' });
+    this.errorMessage = page.getByRole('heading', { name: /Epic sadface/ });
   }
 
   async goto(): Promise<void> {
@@ -29,5 +31,11 @@ export class LoginPage extends BasePage {
     const inventoryPage = new InventoryPage(this.page);
     await inventoryPage.waitForReady();
     return inventoryPage;
+  }
+
+  async attemptLogin(username: string, password: string): Promise<void> {
+    await this.usernameInput.fill(username);
+    await this.passwordInput.fill(password);
+    await this.loginButton.click();
   }
 }

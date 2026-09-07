@@ -17,3 +17,8 @@ export const standardUser: SauceUser = {
   username: requiredEnvironmentVariable('SAUCE_STANDARD_USERNAME'),
   password: requiredEnvironmentVariable('SAUCE_PASSWORD'),
 };
+
+export const lockedOutUser: SauceUser = {
+  username: requiredEnvironmentVariable('SAUCE_LOCKED_OUT_USERNAME'),
+  password: requiredEnvironmentVariable('SAUCE_PASSWORD'),
+};
