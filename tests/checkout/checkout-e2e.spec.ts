@@ -1,14 +1,14 @@
 import { test, expect } from '@playwright/test';
-import { LoginPage } from '../../pages/LoginPage';
+import { LoginPage } from '../../pages/LoginPage/LoginPage';
 import { parseCurrency, roundCurrency } from '../../utils/money';
-import checkoutData from '../data/checkout.json';
-import users from '../data/users.json';
+import { standardUser } from '../../utils/credentials';
+import checkoutData from '../../data/checkout.json';
 
 test.describe('Multi-item checkout flow', () => {
   test('calculates subtotal, tax, total, and completes the order @smoke @critical', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.goto();
-    const inventoryPage = await loginPage.loginAs(users.standard);
+    const inventoryPage = await loginPage.loginAs(standardUser);
     await inventoryPage.addProducts(2);
     await expect(inventoryPage.cartItemCount).toHaveText('2');
     const checkoutPage = await inventoryPage.openCart();
@@ -39,7 +39,7 @@ test.describe('Multi-item checkout flow', () => {
   test('rejects checkout when first name is missing @regression', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.goto();
-    const inventoryPage = await loginPage.loginAs(users.standard);
+    const inventoryPage = await loginPage.loginAs(standardUser);
     await inventoryPage.addProducts(1);
     const checkoutPage = await inventoryPage.openCart();
 
@@ -55,7 +55,7 @@ test.describe('Multi-item checkout flow', () => {
   test('rejects checkout when last name is missing @regression', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.goto();
-    const inventoryPage = await loginPage.loginAs(users.standard);
+    const inventoryPage = await loginPage.loginAs(standardUser);
     await inventoryPage.addProducts(1);
     const checkoutPage = await inventoryPage.openCart();
 
@@ -71,7 +71,7 @@ test.describe('Multi-item checkout flow', () => {
   test('rejects checkout when postal code is missing @regression', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.goto();
-    const inventoryPage = await loginPage.loginAs(users.standard);
+    const inventoryPage = await loginPage.loginAs(standardUser);
     await inventoryPage.addProducts(1);
     const checkoutPage = await inventoryPage.openCart();
 
